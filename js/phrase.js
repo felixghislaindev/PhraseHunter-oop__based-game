@@ -27,7 +27,11 @@ class Phrase {
                 
                 if(phrase.includes(userClickedLetter)){
                     // disableling letter found in phrase
+                    console.log('found one')
                     this.showLetter(userClickedLetter)
+                    
+                } else{
+                    return 'false'
                 }
 
                
@@ -48,6 +52,3 @@ class Phrase {
     
     
 
-const newPhrase = new Phrase('the energy');
-newPhrase.addPhraseToDisplay();
-newPhrase.checkLetter()
