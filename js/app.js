@@ -43,5 +43,10 @@ keys.forEach(key => {
     })
 })
 
+document.addEventListener('keydown', (e)=>{
+    console.log(e.keyCode)
+})
+
+
 
 

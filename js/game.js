@@ -2,7 +2,8 @@ class Game {
     constructor(phrases){
         this.missed = 0;
         this.phrases = phrases;
-        this.phrase = this.getRandomPhrase()
+        this.phrase = this.getRandomPhrase();
+        this.selectedLetter = []
     }
     getRandomPhrase(){
         
@@ -12,36 +13,35 @@ class Game {
             }
     handleInteraction(letter){
         const gamePhrase = this.phrase.phrase;
-        if(gamePhrase.includes(letter)){
-
-            const lis = document.querySelectorAll('#phrase ul li');
-                        lis.forEach(li => {
-                            if(letter === li.innerHTML){
-                                this.phrase.showMatchedLetter(li)
-                            }})
+         if(this.phrase.checkletter(letter)){
+            for(let i = 0; i < gamePhrase.split(letter).length-1; i++){
+                this.selectedLetter.push(letter)
+            }
+            this.checkForWin()
             
-        } else{
-            let missed = this.missed;
-            missed++;
-            this.removeLife(missed)
-        }
-        console.log()
-        // console.log(this.phrase.includes(letter))
-       
-        // if matched letter call showmatched letter
-        // else call removelife
+            
+         } else{
+            this.missed++
+            
+               this.removeLife()
+         }
+
+
+      
     }
 
-    removeLife(missed){
+    removeLife(){
         // will remove life
         
         let numberOfLife = document.querySelectorAll('#scoreboard ol li').length;
         const heartDisplay = document.querySelectorAll('#scoreboard ol li');
         
 
-        heartDisplay[5 - missed].style.display = 'none';
+        heartDisplay[5 - this.missed].style.display = 'none';
       
-       console.log(missed)
+       if(this.missed === 5){
+           this.gameOver()
+       }
         
 
         
@@ -49,9 +49,52 @@ class Game {
     }
     checkForWin(){
         // will check for win
+        const gamePhrase = this.phrase.phrase;
+        const phrase = gamePhrase.replace(/\s/g, '').split('');
+        const winnMsg = document.querySelector('#game-over-message');
+
+        const tryAaginBtn = document.createElement('BUTTON');
+        tryAaginBtn.className = 'button'
+        tryAaginBtn.setAttribute('id','btn__failure');
+   
+
+        if(phrase.length === this.selectedLetter.length){
+            document.querySelector('#overlay').style.display = '';
+            document.querySelector('#btn__reset').style.display = 'none';
+            winnMsg.innerHTML = 'You Win!';
+            tryAaginBtn.innerHTML = 'Play Again';
+            winnMsg.parentNode.insertBefore(tryAaginBtn,winnMsg.nextSibling)
+    
+            tryAaginBtn.addEventListener('click',()=>{
+                location.reload(true)
+            })
+            
+        }
+        
+        
+        
+        
     }
     gameOver(){
         // will display lossing message
+
+        const losingMsg = document.querySelector('#game-over-message');
+        const tryAaginBtn = document.createElement('BUTTON');
+        tryAaginBtn.className = 'button'
+        tryAaginBtn.setAttribute('id','btn__failure');
+
+        tryAaginBtn.addEventListener('click',()=>{
+            location.reload(true)
+        })
+
+       
+            document.querySelector('#overlay').style.display = '';
+            document.querySelector('#btn__reset').style.display = 'none';
+
+            losingMsg.innerHTML = 'You lost';
+            tryAaginBtn.innerHTML = 'Play Again';
+            losingMsg.parentNode.insertBefore(tryAaginBtn,losingMsg.nextSibling)
+            
     }
     startGame(){
         // call getrandomphrase 

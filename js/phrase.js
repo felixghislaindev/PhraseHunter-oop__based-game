@@ -19,9 +19,21 @@ class Phrase {
     });
     return phraseUl.innerHTML = phraseToletter.join('')
 }
-    checkletter(){
-        console.log('will check letter')
-    }
+    checkletter(l){
+        console.log(this.phrase.includes(l))
+        if(this.phrase.includes(l)){
+            
+            const lis = document.querySelectorAll('#phrase ul li');
+                        lis.forEach(li => {
+                            if(l === li.innerHTML){
+                                this.showMatchedLetter(li)
+                            }})
+
+                            return true
+            }
+                
+        }  
+    
     showMatchedLetter(letterToShow){
         letterToShow.className = 'show';
     }
