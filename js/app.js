@@ -14,14 +14,33 @@ function resetDisplay (){
    
           
 }
-function markButton(event){
-    const btnSelected = event.target;
-    btnSelected.className = 'chosen';
-    btnSelected.disabled = true;
+function markButton(event,type){
+   
+    // will fire if a the onscreen keyboard is pressed
+    if(type === 'click'){
+        const btnSelected = event;
+        btnSelected.className = 'chosen';
+        btnSelected.disabled = true;
+        const letterSelected =  event.innerHTML;
+        game.handleInteraction(letterSelected)
+    } 
+    // will fire when the phisycal keyboard is pressed
+    else{
+        const keys = document.querySelectorAll('#qwerty button');
 
+    keys.forEach(key => {
+       if(key.innerHTML === event){
+        key.className = 'chosen';
+        key.disabled = true;
+        game.handleInteraction(event)
+        
+       }
+    })
+    }
 
-    const letterSelected =  event.target.innerHTML;
-    game.handleInteraction(letterSelected)
+    
+    
+    
 }
 
 
@@ -36,17 +55,19 @@ startBtn.addEventListener('click', ()=>{
 // adding even listener to the keyboard
 const keys = document.querySelectorAll('#qwerty button');
 
+
 keys.forEach(key => {
     key.addEventListener('click', (event) => {
-         markButton(event);
+         markButton(event.target, event.type);
          
     })
 })
 
-document.addEventListener('keydown', (e)=>{
-    console.log(e.keyCode)
+// keyboard functionality
+document.addEventListener('keypress', (e)=>{
+    markButton(e.key,e.type)
+    
 })
-
 
 
 

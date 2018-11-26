@@ -6,7 +6,7 @@ class Game {
         this.selectedLetter = []
     }
     getRandomPhrase(){
-        
+            // generate random number and pulls random phrase
             const randomNum = Math.floor( Math.random() * this.phrases.length);
             const RandomPhrase = new Phrase(this.phrases[randomNum]);
         return RandomPhrase
@@ -14,7 +14,9 @@ class Game {
     handleInteraction(letter){
         const gamePhrase = this.phrase.phrase;
          if(this.phrase.checkletter(letter)){
+            //  will add the letter the amount of time it is found in the phrase
             for(let i = 0; i < gamePhrase.split(letter).length-1; i++){
+                // will push the matching letter into an array
                 this.selectedLetter.push(letter)
             }
             this.checkForWin()
@@ -31,12 +33,8 @@ class Game {
     }
 
     removeLife(){
-        // will remove life
-        
-        let numberOfLife = document.querySelectorAll('#scoreboard ol li').length;
+        // will remove life and heart on screen if answer is wrong
         const heartDisplay = document.querySelectorAll('#scoreboard ol li');
-        
-
         heartDisplay[5 - this.missed].style.display = 'none';
       
        if(this.missed === 5){
@@ -57,8 +55,12 @@ class Game {
         tryAaginBtn.className = 'button'
         tryAaginBtn.setAttribute('id','btn__failure');
    
+        // checks if the array that contains the player selected letter as 
+        // the same length as the game phrase
 
         if(phrase.length === this.selectedLetter.length){
+
+            // will display the winning message
             document.querySelector('#overlay').style.display = '';
             document.querySelector('#btn__reset').style.display = 'none';
             winnMsg.innerHTML = 'You Win!';
@@ -103,34 +105,3 @@ class Game {
         // will also call addphrasetodisplay 
     }
 }
-
-
-
-
-
-
-// class Game{
-//     constructor(phrases){
-//         this.missed = 0;
-//         this.phrases = phrases
-//     }
-//     getRandomPhrase(){
-        
-//     const randomNum = Math.floor( Math.random() * this.phrases.length);
-//     const RandomPhrase = this.phrases[randomNum];
-//     this.handleInteraction(RandomPhrase)
-   
-//     }
-
-//     handleInteraction(RandomPhrase){
-//         const gamePhrase = new Phrase(RandomPhrase);
-//        console.log( gamePhrase.checkLetter()) ;
-//     }
-    
-// }
-
-// let phraseString = ['javascript', 'coding monster','bug finder',
-//                 'profesional coder', 'i love coding'];
-
-//                 const game = new Game(phraseString)
-//                 game.getRandomPhrase()
